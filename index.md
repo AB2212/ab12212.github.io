@@ -1,6 +1,6 @@
 Hello There! Welcome to this blog
 
-[Image](/images/dog-lying-on-shore-during-day-2252311.jpg)
+![Image](/images/dog.jpg)
 
 ## Description
 
