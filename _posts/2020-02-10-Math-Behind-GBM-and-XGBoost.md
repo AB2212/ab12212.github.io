@@ -5,7 +5,7 @@ To solve any supervised Machine Learning problem, given the dataset $\\{(x\_i, y
 $\hat{f}(x) = \underset{f(x)}{\arg\min}\mathbb{E}\_{x,y}[L(y,f(x))]$
 
 
-The only problem that remains is to find the $\hat{f}(x)$. Since there are infinite possibilities/combinations to create a function, the functional space is infinite-dimensional. Hence, to find a function we need to limit our search space by restricting our function to a specific structure, $f(x,\theta), \theta \in \mathbb{R}^n$. Remember your linear regression equation? There we only consider linear combination of features multiplied with the parameter, $\hat{f}(x) = \theta^Tx$, we are limiting the search space to find parameters $\theta$, this is same as that. The optimization problem has now become,
+The only problem that remains is to find the $\hat{f}(x)$. Since there are infinite possibilities/combinations to create a function, the functional space is infinite-dimensional. Why is it infinite? You can create a function which is a simple linear combination of your features, or you can go crazy and create a function which contains polynomial, trigonometric,exponential, logarithmic terms, etc. and is piece-wise continuous and what not.  Hence, to find a function we need to limit our search space by restricting our function to a specific structure, $f(x,\theta), \theta \in \mathbb{R}^n$. Remember your linear regression equation? There we only consider linear combination of features multiplied with the parameter, $\hat{f}(x) = \theta^Tx$, we are limiting the search space to find parameters $\theta$, this is similar to that. The structure helps us limit our craziness and give the function a sense of belongingness to a family. The optimization problem has now become,
 $\hat{\theta} = \underset{\theta}{\arg\min} \mathbb {E}\_{x,y}[L(y,f(x,\theta))]$, so we only need to search over $\theta$. 
 
 #### Gradient Descent Algorithm
@@ -17,7 +17,9 @@ Let's take a pause and understand why we had to go through all this. Here, in th
 Same as earlier, we will restrict our functions to a family, $\hat{f}(x) = g(x,\theta)$. We will also search for an optimal coefficient $\rho$ for each function we want to add. In  $t^{th}$ iteration, the optimization problem becomes,
 
 $\hat{f}(x) = \sum\_{i = 0}^{t-1} \hat{f\_i}(x)$
+
 $(\rho\_t,\theta\_t) = \underset{\rho,\theta}{\arg\min}\mathbb {E}\_{x,y}[L(y,\hat{f}(x) + \rho \cdot g(x, \theta))]$
+
 $\hat{f\_t}(x) = \rho\_t \cdot g(x, \theta\_t)$
 
 Now, we will try to solve this using gradient descent. But how? We can calculate gradient of loss with respect to the function instead of a parameter. Suppose we are using squared error $L = (y-f)^2$, the gradient of the loss w.r.t. $f$ will be $[\frac{\partial L(y, f)}{\partial f}]\_{f=\hat{f}} = 2*(y-\hat{f})$, which is the $residual$. So the new function that needs to be added to our previous estimate should be $-residual$. This makes sense, right? We are adding a new function to the previous estimate to correct wherever it had made errors. So now in  $t^{th}$ iteration, the optimization problem becomes,
@@ -32,7 +34,8 @@ $\rho\_t = \underset{\rho}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \hat{f}(x\_i) + \r
 We can solve these above equations to find $\hat{f}$ in an iterative manner as shown below:
 1. Initialize the function estimate with a constant value$\hat{f}(x) = \hat{f}\_0, \hat{f}\_0 = \gamma, \gamma \in \mathbb{R}, \hat{f}\_0 = \underset{\gamma}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \gamma)$
 2. For each iteration $t = 1, \dots, T$:
-	i. Calculate pseudo-residuals $r\_t$:
+
+	i. Calculate pseudo-residuals $r\_t$,
 	 $r\_{it} = -\left[\frac{\partial L(y\_i, f(x\_i))}{\partial f(x\_i)}\right]\_{f(x)=\hat{f}(x)}, \quad{for }\ i=1,\ldots,n$
 	
 	ii. Add a new function $g\_t(x)$ as regression on pseudo-residuals $\\{ (x\_i, r\_{it})\\}\_{i=1, \ldots,n}$
