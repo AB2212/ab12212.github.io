@@ -1,6 +1,6 @@
 Hello There! Welcome to this blog
 
-![Image](/images/dog.jpg)
+![Image](/images/dog1.jpg)
 
 ## Description
 
