@@ -1,6 +1,6 @@
 Hello There! Welcome to this blog
 
-{% include screenshot url="/image/dog.jpg" %}
+{% include screenshot url="/image/dog_screenshot.png" %}
 
 ## Description
 
