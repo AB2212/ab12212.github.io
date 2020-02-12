@@ -1,6 +1,6 @@
 Hello There! Welcome to this blog
 
-![Image](/images/dog1.jpg)
+{% include screenshot url="/image/dog.jpg" %}
 
 ## Description
 
