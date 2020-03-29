@@ -25,7 +25,7 @@ $(\rho\_t,\theta\_t) = \underset{\rho,\theta}{\arg\min}\mathbb {E}\_{x,y}[L(y,\h
 
 $\hat{f\_t}(x) = \rho\_t \cdot g(x, \theta\_t)$
 
-Now, we will try to solve this using gradient descent. But how? We can calculate gradient of loss with respect to the function instead of a parameter. Suppose we are using squared error $L = (y-f)^2$, the gradient of the loss w.r.t. $f$ will be $[\frac{\partial L(y, f)}{\partial f}]\_{f=\hat{f}} = -2*(y-\hat{f})$, which is the $residual$. So the new function that needs to be added to our previous estimate should be eqaul to the $residual$. This makes sense, right? We are adding a new function to the previous estimate to correct wherever it had made errors. So now in  $t^{th}$ iteration, the optimization problem becomes,
+Now, we will try to solve this using gradient descent. But how? We can calculate gradient of loss with respect to the function instead of a parameter. Suppose we are using squared error $L = (y-f)^2$, the gradient of the loss w.r.t. $f$ will be $[\frac{\partial L(y, f)}{\partial f}]\_{f=\hat{f}} = -2*(y-\hat{f})$, which is the $residual$. So the new function that needs to be added to our previous estimate should be equal to the $residual$. This makes sense, right? We are adding a new function to the previous estimate to correct wherever it had made errors. So now in  $t^{th}$ iteration, the optimization problem becomes,
 
 $\hat{f}(x) = \sum\_{i = 0}^{t-1}\hat{f\_i}(x)$, 
 $r\_{it} = -\left[\frac{\partial L(y\_i, f(x\_i))}{\partial f(x\_i)}\right]\_{f(x)=\hat{f}(x)}, \quad {for}\ i=1,\ldots,n$
