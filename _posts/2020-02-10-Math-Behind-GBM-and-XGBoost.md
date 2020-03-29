@@ -8,11 +8,11 @@ To solve any supervised Machine Learning problem, given the dataset $\\{(x\_i, y
 $\hat{f}(x) = \underset{f(x)}{\arg\min}\mathbb{E}\_{x,y}[L(y,f(x))]$
 
 
-The only problem that remains is to find the $\hat{f}(x)$. Since there are infinite possibilities/combinations to create a function, the functional space is infinite-dimensional. Why is it infinite? You can create a function which is a simple linear combination of your features, or you can go crazy and create a function which contains polynomial, trigonometric,exponential, logarithmic terms, etc. and is piece-wise continuous and what not.  Hence, to find a function we need to limit our search space by restricting our function to a specific structure, $f(x,\theta), \theta \in \mathbb{R}^n$. Remember your linear regression equation? There we only consider linear combination of features multiplied with the parameter, $\hat{f}(x) = \theta^Tx$, we are limiting the search space to find parameters $\theta$, this is similar to that. The structure helps us limit our craziness and give the function a sense of belongingness to a family. The optimization problem has now become,
+The only problem that remains is to find the $\hat{f}(x)$. Since there are infinite possibilities/combinations to create a function, the functional space is infinite-dimensional. Why is it infinite? You can create a function which is a simple linear combination of your features, or you can go crazy and create a function which contains polynomial, trigonometric,exponential, logarithmic terms, etc. and is piece-wise continuous and what not.  Hence, to find a function we need to limit our search space by restricting our function to a specific structure, $f(x,\theta), \theta \in \mathbb{R}^n$. Remember your linear regression equation? There we only consider linear combination of features i.e. $\hat{f}(x) = \theta^Tx$, we are limiting the search space to find parameters $\theta$, this is similar to that. The structure helps us limit our craziness and give the function a sense of belongingness to a family. The optimization problem has now become,
 $\hat{\theta} = \underset{\theta}{\arg\min} \mathbb {E}\_{x,y}[L(y,f(x,\theta))]$, so we only need to search over $\theta$. 
 
 #### Gradient Descent Algorithm
-We can find this by updating $\theta$  in an iterative fashion using our favorite gradient descent algorithm and come up with our estimate $\hat{\theta}$ after $T$ iterations, $\hat{\theta} = \sum\_{i = 1}^T \hat{\theta\_i}$. To start we initialize $\hat{\theta} = \hat{\theta\_0}$ and at each iteration we calculate the gradient of loss function, i.e. $-\left[\frac{\partial L(y, f(x, \theta))}{\partial \theta}\right]\_{\theta = \hat{\theta} }$. The gradient tells us in which direction we should move or update our parameter to minimize the loss, let's call this gradeint/update $\hat{\theta\_t}$ for the $t^{th}$  step. We add this $\hat{\theta\_t}$ to our current estimate to get the new estimate, $\hat{\theta} \leftarrow \hat{\theta} + \hat{\theta\_t} = \sum\_{i = 0}^t \hat{\theta\_i}$ . We repeat this till convergence, when the gradient of the loss function is close to 0. Finally, we have the $\hat{f}(x) = f(x, \hat{\theta})$.
+We can find this by updating $\theta$  in an iterative fashion using our favorite gradient descent algorithm and come up with our estimate $\hat{\theta}$ after $T$ iterations, $\hat{\theta} = \sum\_{i = 1}^T \hat{\theta\_i}$. To start we initialize $\hat{\theta} = \hat{\theta\_0}$ and at each iteration we calculate the gradient of loss function, i.e. $-\left[\frac{\partial L(y, f(x, \theta))}{\partial \theta}\right]\_{\theta = \hat{\theta} }$. The gradient tells us in which direction we should move or update our parameter to minimize the loss, let's call this gradient/update $\hat{\theta\_t}$ for the $t^{th}$  step. We add this $\hat{\theta\_t}$ to our current estimate to get the new estimate, $\hat{\theta} \leftarrow \hat{\theta} + \hat{\theta\_t} = \sum\_{i = 0}^t \hat{\theta\_i}$ . We repeat this till convergence, when the gradient of the loss function is close to 0. Finally, we have the $\hat{f}(x) = f(x, \hat{\theta})$.
 
 
 #### Optimization in function space	
@@ -25,8 +25,9 @@ $(\rho\_t,\theta\_t) = \underset{\rho,\theta}{\arg\min}\mathbb {E}\_{x,y}[L(y,\h
 
 $\hat{f\_t}(x) = \rho\_t \cdot g(x, \theta\_t)$
 
-Now, we will try to solve this using gradient descent. But how? We can calculate gradient of loss with respect to the function instead of a parameter. Suppose we are using squared error $L = (y-f)^2$, the gradient of the loss w.r.t. $f$ will be $[\frac{\partial L(y, f)}{\partial f}]\_{f=\hat{f}} = 2*(y-\hat{f})$, which is the $residual$. So the new function that needs to be added to our previous estimate should be $-residual$. This makes sense, right? We are adding a new function to the previous estimate to correct wherever it had made errors. So now in  $t^{th}$ iteration, the optimization problem becomes,
-$\hat{f}(x) = \sum\_{i = 0}^{t-1}\hat{f\_i}(x)$
+Now, we will try to solve this using gradient descent. But how? We can calculate gradient of loss with respect to the function instead of a parameter. Suppose we are using squared error $L = (y-f)^2$, the gradient of the loss w.r.t. $f$ will be $[\frac{\partial L(y, f)}{\partial f}]\_{f=\hat{f}} = -2*(y-\hat{f})$, which is the $residual$. So the new function that needs to be added to our previous estimate should be eqaul to the $residual$. This makes sense, right? We are adding a new function to the previous estimate to correct wherever it had made errors. So now in  $t^{th}$ iteration, the optimization problem becomes,
+
+$\hat{f}(x) = \sum\_{i = 0}^{t-1}\hat{f\_i}(x)$, 
 $r\_{it} = -\left[\frac{\partial L(y\_i, f(x\_i))}{\partial f(x\_i)}\right]\_{f(x)=\hat{f}(x)}, \quad {for}\ i=1,\ldots,n$
 
 $\theta\_t = \underset{\theta}{\arg\min}\sum\_{i = 1}^{n} (r\_{it} - g(x\_i, \theta))^2,$
@@ -45,6 +46,7 @@ We can solve these above equations to find $\hat{f}$ in an iterative manner as s
 
 	iii. Find optimal coefficient $\large \rho\_t$ at $g\_t(x)$ regarding initial loss function
 	$\rho\_t = \underset{\rho}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \hat{f}(x\_i) + \rho \cdot g(x\_i, \theta))$
+	
 	iv. Update current approximation $\hat{f}(x)$ where $\hat{f\_t}(x) = \rho\_t \cdot g\_t(x)$
 
       $\hat{f}(x)\leftarrow\hat{f}(x)+\hat{f\_t}(x) = \sum\_{i = 0}^{t}\hat{f\_i}(x)$
