@@ -105,7 +105,7 @@ We can remove the constant terms to simplify the objective function,
 
 $\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
 
-Let $I\_{j} = \{i\|q(x\_{i}=j\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
+Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
 
 $\mathcal{L}^{(t)}
 = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) + \gamma T + \frac{1}{2}\lambda||w||^{2}$
