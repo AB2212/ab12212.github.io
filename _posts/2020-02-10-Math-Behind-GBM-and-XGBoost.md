@@ -1,5 +1,6 @@
 Many of you ML enthusiasts out there might have used boosting algorithms to get the best predictions (most of the time) on your data. In this blog post, I want to demystify how these algorithms work and how are they different from others. But why would anyone want to do the tough job of looking under the hood to understand the inner working? This post is for all the curious minds out there who want to learn and innovate new techniques to tackle unprecedented problems. Let’s get started!
 
+#### Table of Content
 1. TOC
 {:toc}
 
@@ -56,10 +57,95 @@ $\hat{f}(x) = \sum\_{i = 0}^T\hat{f\_i}(x)$
 This is how the Gradient Boosting Machines algorithm works.
 
 #### XGBoost
-cntd.....
+XGBoost is a scalable machine learning system for tree boosting. The system is available as an open source package. The impact of the system has been widely recognized in a number of machine learning and data mining challenges. It became well known in the ML competition circles after its use in the winning solution of the Higgs Machine Learning Challenge. Many of the winning solutions in Kaggle competitions have used XGBoost to train models. Its popularity and success is an outcome of the following innovations:
+    1. Scalable end-to-end tree boosting
+    2. Weighted quantile sketch to propose efficient candidate split points
+    3. Sparsity-aware algorithm that handles sparse data including missing values as well
+    4. Effective cache-aware block structures for out of the core computing
+    
+    
+The derivation follows from the same idea of gradient boosting as we saw earlier. 
+
+It uses K additive trees to create the ensemble model,
 
 
+$\hat{y} = \hat{f}(x) = \sum\_{i = 0}^K\hat{f\_i}(x)$,     $\hat{f\_i}(x) \in F$
 
+where $ F = \{f(x) = w\_{q(x)}\}(q: \mathbb{R}^{m} \rightarrow T, w \in \mathbb{R}^{T})$
+
+$q$ represents the structure of the tree that maps an input to the corresponding leaf index at which it ends up being. $T$ is the number of leaves in the tree. Each regression tree contains a continuous score on each of its leaf. $w\_i$ represents the score on i-th leaf. For a given example, we will use the decision rules in the trees (given by $q$) to classify it into the leaves and calculate the final prediction by summing up the score in the corresponding leaves (given by $w$) as shown in the image below. 
+
+![xgboost tree](xgboost.PNG)
+
+To learn the set of functions used in the model, we minimize the following regularized objective. 
+
+$\mathcal{L}(\phi) = \sum\_{i} l(\hat{y}\_i,y\_i) + \sum\_{k} \Omega(f\_{k})$
+
+where $\Omega(f\_{k}) = \gamma T + \frac{1}{2}\lambda||w||^{2}$
+    
+Here $l$ is a differentiable convex loss function that measures the difference between the prediction $y\_i$ and the target $y\_i$.The second term penalizes the complexity of the model (i.e., the regression tree functions). The additional regularization term helps to smooth the final learnt weights to avoid over-fitting.Trees with more depth have too many leaf nodes and can overfit on the training data, with very few examples ending up in each leaf node. Hence to reduce the depth and overfitting we use a penalty for number of leaf nodes. When the regularization parameter is set to zero, the objective falls back to the traditional gradient tree boosting. 
+
+For the t-th iteration we will need to add $f\_t$ to minimize the following objective function,
+
+$\mathcal{L}^{(t)} = \sum\_{i} l(\hat{y}\_i^{t-1}+f\_{t}(x\_{i}),y\_i) + \sum\_{t} \Omega(f\_{t})$
+
+Using Taylor series expansion we can do second-order approximation of our objective function. A Taylor series is a series expansion of a function about a point. A one-dimensional Taylor series is an expansion of a real function f(x) about a point x=a, is given by
+
+$f(x) =  f(a) + f^{'}(a)(x-a)+ \frac{f^{''}(a)}{2!} (x-a)^2 + \frac{f^{'''}(a)}{3!} (x-a)^3+ ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
+
+Applying second order approximation to our function,
+
+$\mathcal{L}^{(t)} = \sum\_{i}^n [l(\hat{y}\_i^{t-1}, y\_i) + g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
+
+For comparison with Taylor Series, we have $(\hat{y}\_i^{t-1}, y\_i)$ as x and $f\_{t}(x\_{i})$ as x-a,
+and $g\_{i} = \partial\_{\hat{y}^{t-1}}l(\hat{y}\_i^{t-1}, y\_i)$ and $h\_{i} = \partial\_{\hat{y}^{t-1}}^2l(\hat{y}\_i^{t-1}, y\_i)$, which is the first and second derivative respectively.
+
+We can remove the constant terms to simplify the objective function,
+
+$\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
+
+
+Let $I\_{j} = \{i|q(x\_{i}=j\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
+
+$\mathcal{L}^{(t)}
+= \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) + \gamma T + \frac{1}{2}\lambda||w||^{2}$
+
+$= \sum\_{j=1}^T[(\sum\_{i \in I\_{j}}g\_{i})w\_{j} + \frac{1}{2}(\sum\_{i \in I\_{j}} + \lambda)w\_{j}^2] +\gamma T$
+
+For a fixed structure q(x), we can compute the optimal weight $w\_{j}^{*}$ of leaf j by differentiating the above equation with respect to w and equating to 0,
+
+$w\_{j}^{*} = -\frac{\sum\_{i \in I\_{j}}g\_{i}}{\sum\_{i \in I\_{j}}h\_{i}+\lambda}$,
+
+and calculate the corresponding optimal value for given tree structure q by,
+
+$\mathcal{L}^{(t)} = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
+
+![xgboost_gradient](xgboost_gradients.PNG)
+
+So far, we have optimal weight for each of the leaf nodes, we now need to search for the optimal tree structure. The above equation can be used to measure the quality of a tree structure $q$. The score is like the impurity score for evaluating the trees, except that it is derived for a wider range of objective functions. 
+
+Normally it is impossible to enumerate all the possible tree structures q. A greedy algorithm that starts from a
+single leaf and iteratively adds branches to the tree is used instead. Assume that $I\_{L}$ and $I\_{R}$ are the instance sets of left and right nodes after the split. Letting $I = I\_{L} \cup I\_{R}$, then the loss reduction after the split is given by,
+
+$\mathcal{L}\_{split} = -\frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma (T+1 - T)$
+
+   $= -\frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma$,
+   
+   i.e. total loss after split - total loss before split.
+ 
+ This score can be used to evaluate the split candidates similar to gini index or entropy.
+ 
+XGBoost uses approximate algorithm to decide the candidate split points using [Weighted Quantile Sketch](https://homes.cs.washington.edu/~tqchen/data/pdf/xgboost-supp.pdf), instead of greedily searching over all the split points. As it is impossible to do it efficiently when data doesn't fit entire memory. 
+ 
+ Besides regularisation, shrinkage $\eta$ is used to scale newly added weights after each step of tree boosting, similar to learning rate in stochastic optimization. This reduces the influences of each tree and leaves space for improvement for future trees, which helps in creating smoother boundaries and better generalization. Also similar to Random Forest, column subsampling is also used which reduces overfitting (more than traditional row sampling) and also speeds up computation.
+
+In addition to this, algorithm is aware of the sparsity pattern in the data. A default direction is chosen in each tree node when a value is missing in the sparse matrix x and the instance is classified into the default direction. The optimal default direction is learnt from the data (not covered in this post).
+
+Hope this helps you to understand the inner workings of XGBoost algorithm and gives you a head start in reading the paper. I would urge the readers to go read the entire paper for more details that I haven't included in this post. Please find the link to the paper in reference section below.
+ 
 
 References:
+
 [https://mlcourse.ai/articles/topic10-boosting/](https://mlcourse.ai/articles/topic10-boosting/) 
+
+[XGBoost Paper](https://arxiv.org/pdf/1603.02754.pdf)
