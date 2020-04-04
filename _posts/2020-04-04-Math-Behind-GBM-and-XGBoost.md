@@ -130,9 +130,9 @@ We have the optimal weight for each of the leaf nodes, we now need to search for
 Normally it is impossible to enumerate all the possible tree structures q. A greedy algorithm that starts from a
 single leaf and iteratively adds branches to the tree is used instead. Assume that $I\_{L}$ and $I\_{R}$ are the instance sets of left and right nodes after the split. Letting $I = I\_{L} \cup I\_{R}$, then the loss reduction after the split is given by,
 
-$\mathcal{L}\_{split} = -\frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma (T+1 - T)$
+$\mathcal{L}\_{split} = \frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma (T+1 - T)$
 
-   $= -\frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma$,
+   $= \frac{1}{2}[\frac{(\sum\_{i \in I\_{L}}g\_{i})^2}{\sum\_{i \in I\_{L}}h\_{i}+\lambda} + \frac{(\sum\_{i \in I\_{R}}g\_{i})^2}{\sum\_{i \in I\_{R}}h\_{i}+\lambda} - \frac{(\sum\_{i \in I}g\_{i})^2}{\sum\_{i \in I}h\_{i}+\lambda}] -\gamma$,
    
    i.e. total loss after split - total loss before split.
  
