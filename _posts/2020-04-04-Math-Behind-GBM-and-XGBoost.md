@@ -96,19 +96,19 @@ $f(x) =  f(a) + f^{\prime}(a)(x-a)+ \frac{f^{\prime\prime}(a)}{2!} (x-a)^2 + ...
 
 Applying second order approximation to our function,
 
-$\mathcal{L}^{(t)} = \sum\_{i}^n [l(\hat{y}\_i^{t-1}, y\_i) + g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
+$\mathcal{L}^{(t)} = \sum\_{i}^n [l(\hat{y}\_i^{t-1}, y\_i) + g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] +\Omega(f\_{t})$
 
 For comparison with Taylor Series, we have $(\hat{y}\_i^{t-1}, y\_i)$ as x and $f\_{t}(x\_{i})$ as x-a,
 and $g\_{i} = \partial\_{\hat{y}^{t-1}}l(\hat{y}\_i^{t-1}, y\_i)$ and $h\_{i} = \partial\_{\hat{y}^{t-1}}^2l(\hat{y}\_i^{t-1}, y\_i)$, which is the first and second derivative respectively.
 
 We can remove the constant terms to simplify the objective function,
 
-$\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
+$\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] +\Omega(f\_{t})$
 
 Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
 
 $\mathcal{L}^{(t)}
-= \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) + \gamma T + \frac{1}{2}\lambda||w||^{2}$
+= \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] + \gamma T + \frac{1}{2}\lambda||w||^{2}$
 
 $= \sum\_{j=1}^T[(\sum\_{i \in I\_{j}}g\_{i})w\_{j} + \frac{1}{2}(\sum\_{i \in I\_{j}} + \lambda)w\_{j}^2] +\gamma T$
 
