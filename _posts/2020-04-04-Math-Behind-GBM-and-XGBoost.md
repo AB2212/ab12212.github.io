@@ -84,7 +84,7 @@ $\mathcal{L}(\phi) = \sum\_{i} l(\hat{y}\_i,y\_i) + \sum\_{k} \Omega(f\_{k})$
 
 where $\Omega(f\_{k}) = \gamma T + \frac{1}{2}\lambda \|\|w\|\|^{2}$
     
-Here $l$ is a differentiable convex loss function that measures the difference between the prediction $y\_i$ and the target $y\_i$.The second term penalizes the complexity of the model (i.e., the regression tree functions). The additional regularization term helps to smooth the final learnt weights to avoid over-fitting.Trees with more depth have too many leaf nodes and can overfit on the training data, with very few examples ending up in each leaf node. Hence to reduce the depth and overfitting we use a penalty for number of leaf nodes. When the regularization parameter is set to zero, the objective falls back to the traditional gradient tree boosting. 
+Here $l$ is a differentiable convex loss function that measures the difference between the prediction $y\_i$ and the target $y\_i$.The second term penalizes the complexity of the model (i.e., the regression tree functions). The additional regularization term helps to smooth the final learnt weights to avoid over-fitting. Trees with more depth have too many leaf nodes and can overfit on the training data, with very few examples ending up in each leaf node. Hence to reduce the depth and overfitting we use a penalty for number of leaf nodes. When the regularization parameter is set to zero, the objective falls back to the traditional gradient tree boosting. 
 
 For the t-th iteration we will need to add $f\_t$ to minimize the following objective function,
 
@@ -112,13 +112,13 @@ $\mathcal{L}^{(t)}
 
 $= \sum\_{j=1}^T[(\sum\_{i \in I\_{j}}g\_{i})w\_{j} + \frac{1}{2}(\sum\_{i \in I\_{j}} + \lambda)w\_{j}^2] +\gamma T$
 
-For a fixed structure q(x), we can compute the optimal weight $w\_{j}^{*}$ of leaf j by differentiating the above equation with respect to w and equating to 0,
+For a fixed structure $q(x)$, we can compute the optimal weight $w\_{j}^{*}$ of leaf j by differentiating the above equation with respect to w and equating to 0,
 
 $w\_{j}^{*} = -\frac{\sum\_{i \in I\_{j}}g\_{i}}{\sum\_{i \in I\_{j}}h\_{i}+\lambda}$,
 
 and calculate the corresponding optimal value for given tree structure q by (shown in the image below),
 
-$\mathcal{L}^{(t)} = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
+$\mathcal{L}^{(t)}(q) = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
 
 ![xgboost_gradient](/images/xgboost_gradients.PNG)
 
