@@ -4,7 +4,7 @@ Table of Content
 1. TOC
 {:toc}
 
-#### Supervised Machine Learning
+#### **Supervised Machine Learning**
 To solve any supervised Machine Learning problem, given the dataset $\\{(x\_i, y\_i)\\}\_{i=1,\ldots,n}$ where $x$ are the features and $y$ is the target, we try to restore the function $y = f(x)$ by approximately estimating $\hat{f}(x)$ while measuring how good the mapping is using a loss function $L(y,f)$ and then take average over all the dataset points to get the final cost, i.e., 
 $\hat{f}(x) = \underset{f(x)}{\arg\min}\mathbb{E}\_{x,y}[L(y,f(x))]$
 
@@ -12,11 +12,11 @@ $\hat{f}(x) = \underset{f(x)}{\arg\min}\mathbb{E}\_{x,y}[L(y,f(x))]$
 The only problem that remains is to find the $\hat{f}(x)$. Since there are infinite possibilities/combinations to create a function, the functional space is infinite-dimensional. Why is it infinite? You can create a function which is a simple linear combination of your features, or you can go crazy and create a function which contains polynomial, trigonometric,exponential, logarithmic terms, etc. and is piece-wise continuous and what not.  Hence, to find a function we need to limit our search space by restricting our function to a specific structure, $f(x,\theta), \theta \in \mathbb{R}^n$. Remember your linear regression equation? There we only consider linear combination of features i.e. $\hat{f}(x) = \theta^Tx$, we are limiting the search space to find parameters $\theta$, this is similar to that. The structure helps us limit our craziness and give the function a sense of belongingness to a family. The optimization problem has now become,
 $\hat{\theta} = \underset{\theta}{\arg\min} \mathbb {E}\_{x,y}[L(y,f(x,\theta))]$, so we only need to search over $\theta$. 
 
-#### Gradient Descent Algorithm
+#### **Gradient Descent Algorithm**
 We can find this by updating $\theta$  in an iterative fashion using our favorite gradient descent algorithm and come up with our estimate $\hat{\theta}$ after $T$ iterations, $\hat{\theta} = \sum\_{i = 1}^T \hat{\theta\_i}$. To start we initialize $\hat{\theta} = \hat{\theta\_0}$ and at each iteration we calculate the gradient of loss function, i.e. $-\left[\frac{\partial L(y, f(x, \theta))}{\partial \theta}\right]\_{\theta = \hat{\theta} }$. The gradient tells us in which direction we should move or update our parameter to minimize the loss, let's call this gradient/update $\hat{\theta\_t}$ for the $t^{th}$  step. We add this $\hat{\theta\_t}$ to our current estimate to get the new estimate, $\hat{\theta} \leftarrow \hat{\theta} + \hat{\theta\_t} = \sum\_{i = 0}^t \hat{\theta\_i}$ . We repeat this till convergence, when the gradient of the loss function is close to 0. Finally, we have the $\hat{f}(x) = f(x, \hat{\theta})$.
 
 
-#### Optimization in function space	
+#### **Optimization in function space**
 Let's take a pause and understand why we had to go through all this. Here, in the gradient descent algorithm we did an iterative search over the parameters. Why can't we search in the same way over functions? We can start with a randomly guessed function and keep adding new functions to get better estimate like we did with parameters. We will start with our initial estimate $\hat{f}\_0$  and then reach to our final function after $T$ iterations, $\hat{f}(x) = \sum\_{i=0}^T\hat{f\_i}(x)$.
 Same as earlier, we will restrict our functions to a family, $\hat{f}(x) = g(x,\theta)$. We will also search for an optimal coefficient $\rho$ for each function we want to add. In  $t^{th}$ iteration, the optimization problem becomes,
 
@@ -35,7 +35,7 @@ $\theta\_t = \underset{\theta}{\arg\min}\sum\_{i = 1}^{n} (r\_{it} - g(x\_i, \th
 
 $\rho\_t = \underset{\rho}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \hat{f}(x\_i) + \rho \cdot g(x\_i, \theta\_t))$
 
-#### Gradient Boosting Algorithm
+#### **Gradient Boosting Algorithm**
 We can solve these above equations to find $\hat{f}$ in an iterative manner as shown below:
 1. Initialize the function estimate with a constant value$\hat{f}(x) = \hat{f}\_0, \hat{f}\_0 = \gamma, \gamma \in \mathbb{R}, \hat{f}\_0 = \underset{\gamma}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \gamma)$
 2. For each iteration $t = 1, \dots, T$:
@@ -56,7 +56,7 @@ $\hat{f}(x) = \sum\_{i = 0}^T\hat{f\_i}(x)$
 
 This is how the Gradient Boosting Machines algorithm works.
 
-#### XGBoost
+#### **XGBoost**
 XGBoost is a scalable machine learning system for tree boosting. The system is available as an open source package. The impact of the system has been widely recognized in a number of machine learning and data mining challenges. It became well known in the ML competition circles after its use in the winning solution of the Higgs Machine Learning Challenge. Many of the winning solutions in Kaggle competitions have used XGBoost to train models. Its popularity and success is an outcome of the following innovations:
 
     1. Scalable end-to-end tree boosting
@@ -94,35 +94,37 @@ Using Taylor series expansion we can do second-order approximation of our object
 
 $f(x) =  f(a) + f^{\prime}(a)(x-a)+ \frac{f^{\prime\prime}(a)}{2!} (x-a)^2 + ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
 
-Applying second order approximation to our function,
+Applying second order approximation to our function and ignoring higher order terms,
 
 $\mathcal{L}^{(t)} = \sum\_{i}^n [l(\hat{y}\_i^{t-1}, y\_i) + g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] +\Omega(f\_{t})$
 
 For comparison with Taylor Series, we have $(\hat{y}\_i^{t-1}, y\_i)$ as x and $f\_{t}(x\_{i})$ as x-a,
-and $g\_{i} = \partial\_{\hat{y}^{t-1}}l(\hat{y}\_i^{t-1}, y\_i)$ and $h\_{i} = \partial\_{\hat{y}^{t-1}}^2l(\hat{y}\_i^{t-1}, y\_i)$, which is the first and second derivative respectively.
+and $g\_{i} = \partial\_{\hat{y}^{t-1}}l(\hat{y}\_i^{t-1}, y\_i)$ and $h\_{i} = \partial\_{\hat{y}^{t-1}}^2l(\hat{y}\_i^{t-1}, y\_i)$, which is the first and second derivative respectively. This approximation helps in getting a closed form optimal solution for $w$.
 
-We can remove the constant terms to simplify the objective function,
+We can remove the constant terms to simplify the objective function ,
 
 $\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] +\Omega(f\_{t})$
 
-Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
+Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j-th leaf node. So, for a given tree, if our input data point, ends up in some j-th leaf node after going through all the decisions, we are going to put that data point in our set $I\_{j}$. We can rewrite the objective function as follows,
 
 $\mathcal{L}^{(t)}
 = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] + \gamma T + \frac{1}{2}\lambda||w||^{2}$
 
 $= \sum\_{j=1}^T[(\sum\_{i \in I\_{j}}g\_{i})w\_{j} + \frac{1}{2}(\sum\_{i \in I\_{j}} + \lambda)w\_{j}^2] +\gamma T$
 
-For a fixed structure $q(x)$, we can compute the optimal weight $w\_{j}^{*}$ of leaf j by differentiating the above equation with respect to w and equating to 0,
+For a fixed tree structure $q(x)$, we can compute the optimal weight $w\_{j}^{*}$ of leaf j by differentiating the above equation with respect to w and equating to 0,
 
 $w\_{j}^{*} = -\frac{\sum\_{i \in I\_{j}}g\_{i}}{\sum\_{i \in I\_{j}}h\_{i}+\lambda}$,
 
-and calculate the corresponding optimal value for given tree structure q by (shown in the image below),
+and calculate the corresponding optimal value for given tree structure $q$ by (shown in the image below),
+
+Here, for now we are assuming that we have a tree structure $q$ for which we have found the corresponding optimal weights at each leaf node. If you observe the above equation of $w\_{j}^{*}$ you will notice that we don't have the leaf nodes yet, i.e. $I\_{j}$ haven't been calculated so far. What we currently have is, given any tree structure we can find what the optimal leaf node weights should be. Our next steps are all about finding the optimal tree structure that minimizes the loss and then we are done finding our tree. 
 
 $\mathcal{L}^{(t)}(q) = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
 
 ![xgboost_gradient](/images/xgboost_gradients.PNG)
 
-So far, we have optimal weight for each of the leaf nodes, we now need to search for the optimal tree structure. The above equation can be used to measure the quality of a tree structure $q$. The score is like the impurity score for evaluating the trees, except that it is derived for a wider range of objective functions. 
+We have the optimal weight for each of the leaf nodes, we now need to search for the optimal tree structure. The above equation can be used to measure the quality of a tree structure $q$. The score is like the impurity score for evaluating the trees, except that it is derived for a wider range of objective functions. 
 
 Normally it is impossible to enumerate all the possible tree structures q. A greedy algorithm that starts from a
 single leaf and iteratively adds branches to the tree is used instead. Assume that $I\_{L}$ and $I\_{R}$ are the instance sets of left and right nodes after the split. Letting $I = I\_{L} \cup I\_{R}$, then the loss reduction after the split is given by,
