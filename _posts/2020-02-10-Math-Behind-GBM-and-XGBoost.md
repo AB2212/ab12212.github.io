@@ -58,6 +58,7 @@ This is how the Gradient Boosting Machines algorithm works.
 
 #### XGBoost
 XGBoost is a scalable machine learning system for tree boosting. The system is available as an open source package. The impact of the system has been widely recognized in a number of machine learning and data mining challenges. It became well known in the ML competition circles after its use in the winning solution of the Higgs Machine Learning Challenge. Many of the winning solutions in Kaggle competitions have used XGBoost to train models. Its popularity and success is an outcome of the following innovations:
+
     1. Scalable end-to-end tree boosting
     2. Weighted quantile sketch to propose efficient candidate split points
     3. Sparsity-aware algorithm that handles sparse data including missing values as well
@@ -75,7 +76,7 @@ where $ F = \{f(x) = w\_{q(x)}\}(q: \mathbb{R}^{m} \rightarrow T, w \in \mathbb{
 
 $q$ represents the structure of the tree that maps an input to the corresponding leaf index at which it ends up being. $T$ is the number of leaves in the tree. Each regression tree contains a continuous score on each of its leaf. $w\_i$ represents the score on i-th leaf. For a given example, we will use the decision rules in the trees (given by $q$) to classify it into the leaves and calculate the final prediction by summing up the score in the corresponding leaves (given by $w$) as shown in the image below. 
 
-![xgboost tree](xgboost.PNG)
+![xgboost tree](/images/xgboost.PNG)
 
 To learn the set of functions used in the model, we minimize the following regularized objective. 
 
@@ -91,7 +92,7 @@ $\mathcal{L}^{(t)} = \sum\_{i} l(\hat{y}\_i^{t-1}+f\_{t}(x\_{i}),y\_i) + \sum\_{
 
 Using Taylor series expansion we can do second-order approximation of our objective function. A Taylor series is a series expansion of a function about a point. A one-dimensional Taylor series is an expansion of a real function f(x) about a point x=a, is given by
 
-$f(x) =  f(a) + f^{'}(a)(x-a)+ \frac{f^{''}(a)}{2!} (x-a)^2 + \frac{f^{'''}(a)}{3!} (x-a)^3+ ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
+$f(x) =  f(a) + f^{'}(a)(x-a)+ \frac{f^{''}(a)}{2!} (x-a)^2 + ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
 
 Applying second order approximation to our function,
 
@@ -120,7 +121,7 @@ and calculate the corresponding optimal value for given tree structure q by,
 
 $\mathcal{L}^{(t)} = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
 
-![xgboost_gradient](xgboost_gradients.PNG)
+![xgboost_gradient](/images/xgboost_gradients.PNG)
 
 So far, we have optimal weight for each of the leaf nodes, we now need to search for the optimal tree structure. The above equation can be used to measure the quality of a tree structure $q$. The score is like the impurity score for evaluating the trees, except that it is derived for a wider range of objective functions. 
 
