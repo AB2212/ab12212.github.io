@@ -82,7 +82,7 @@ To learn the set of functions used in the model, we minimize the following regul
 
 $\mathcal{L}(\phi) = \sum\_{i} l(\hat{y}\_i,y\_i) + \sum\_{k} \Omega(f\_{k})$
 
-where $\Omega(f\_{k}) = \gamma T + \frac{1}{2}\lambda||w||^{2}$
+where $\Omega(f\_{k}) = \gamma T + \frac{1}{2}\lambda \|\|w\|\|^{2}$
     
 Here $l$ is a differentiable convex loss function that measures the difference between the prediction $y\_i$ and the target $y\_i$.The second term penalizes the complexity of the model (i.e., the regression tree functions). The additional regularization term helps to smooth the final learnt weights to avoid over-fitting.Trees with more depth have too many leaf nodes and can overfit on the training data, with very few examples ending up in each leaf node. Hence to reduce the depth and overfitting we use a penalty for number of leaf nodes. When the regularization parameter is set to zero, the objective falls back to the traditional gradient tree boosting. 
 
@@ -105,8 +105,7 @@ We can remove the constant terms to simplify the objective function,
 
 $\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) +\Omega(f\_{t})$
 
-
-Let $I\_{j} = \{i|q(x\_{i}=j\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
+Let $I\_{j} = \{i\|q(x\_{i}=j\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j=th leaf node. We can rewrite the objective function as follows,
 
 $\mathcal{L}^{(t)}
 = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i}) + \gamma T + \frac{1}{2}\lambda||w||^{2}$
@@ -117,7 +116,7 @@ For a fixed structure q(x), we can compute the optimal weight $w\_{j}^{*}$ of le
 
 $w\_{j}^{*} = -\frac{\sum\_{i \in I\_{j}}g\_{i}}{\sum\_{i \in I\_{j}}h\_{i}+\lambda}$,
 
-and calculate the corresponding optimal value for given tree structure q by,
+and calculate the corresponding optimal value for given tree structure q by (shown in the image below),
 
 $\mathcal{L}^{(t)} = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
 
