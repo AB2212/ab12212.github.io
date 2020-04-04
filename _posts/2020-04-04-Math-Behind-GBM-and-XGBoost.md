@@ -57,6 +57,7 @@ $\hat{f}(x) = \sum\_{i = 0}^T\hat{f\_i}(x)$
 This is how the Gradient Boosting Machines algorithm works.
 
 #### **XGBoost**
+
 XGBoost is a scalable machine learning system for tree boosting. The system is available as an open source package. The impact of the system has been widely recognized in a number of machine learning and data mining challenges. It became well known in the ML competition circles after its use in the winning solution of the Higgs Machine Learning Challenge. Many of the winning solutions in Kaggle competitions have used XGBoost to train models. Its popularity and success is an outcome of the following innovations:
 
     1. Scalable end-to-end tree boosting
@@ -105,7 +106,7 @@ We can remove the constant terms to simplify the objective function ,
 
 $\mathcal{L}^{(t)} = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] +\Omega(f\_{t})$
 
-Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j-th leaf node. So, for a given tree, if our input data point, ends up in some j-th leaf node after going through all the decisions, we are going to put that data point in our set $I\_{j}$. We can rewrite the objective function as follows,
+Let $I\_{j} = \\{i\|q(x\_{i})=j\\}$ be the instance set of leaf j, i.e. set of all the input data points that ended up in j-th leaf node. So, for a given tree, if our input data point ends up in some j-th leaf node after going through all the decisions, we are going to put that data point in our set $I\_{j}$. We can rewrite the objective function as follows,
 
 $\mathcal{L}^{(t)}
 = \sum\_{i}^n [g\_i f\_{t}(x\_{i}) + \frac{1}{2}h\_if\_{i}^2(x\_{i})] + \gamma T + \frac{1}{2}\lambda||w||^{2}$
@@ -116,9 +117,9 @@ For a fixed tree structure $q(x)$, we can compute the optimal weight $w\_{j}^{*}
 
 $w\_{j}^{*} = -\frac{\sum\_{i \in I\_{j}}g\_{i}}{\sum\_{i \in I\_{j}}h\_{i}+\lambda}$,
 
-and calculate the corresponding optimal value for given tree structure $q$ by (shown in the image below),
-
 Here, for now we are assuming that we have a tree structure $q$ for which we have found the corresponding optimal weights at each leaf node. If you observe the above equation of $w\_{j}^{*}$ you will notice that we don't have the leaf nodes yet, i.e. $I\_{j}$ haven't been calculated so far. What we currently have is, given any tree structure we can find what the optimal leaf node weights should be. Our next steps are all about finding the optimal tree structure that minimizes the loss and then we are done finding our tree. 
+
+We now calculate the corresponding optimal value for given tree structure $q$ by replacing $w\_{j}^{*}$ in the above equation  (calculation is shown in the image below),
 
 $\mathcal{L}^{(t)}(q) = -\frac{1}{2}\sum\_{j=1}^{T}\frac{(\sum\_{i \in I\_{j}}g\_{i})^2}{\sum\_{i \in I\_{j}}h\_{i}+\lambda} +\gamma T$
 
