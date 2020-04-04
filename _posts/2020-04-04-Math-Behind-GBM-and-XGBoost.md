@@ -1,6 +1,6 @@
 Many of you ML enthusiasts out there might have used boosting algorithms to get the best predictions (most of the time) on your data. In this blog post, I want to demystify how these algorithms work and how are they different from others. But why would anyone want to do the tough job of looking under the hood to understand the inner working? This post is for all the curious minds out there who want to learn and innovate new techniques to tackle unprecedented problems. Let’s get started!
 
-#### Table of Content
+Table of Content
 1. TOC
 {:toc}
 
@@ -92,7 +92,7 @@ $\mathcal{L}^{(t)} = \sum\_{i} l(\hat{y}\_i^{t-1}+f\_{t}(x\_{i}),y\_i) + \sum\_{
 
 Using Taylor series expansion we can do second-order approximation of our objective function. A Taylor series is a series expansion of a function about a point. A one-dimensional Taylor series is an expansion of a real function f(x) about a point x=a, is given by
 
-$f(x) =  f(a) + f^{'}(a)(x-a)+ \frac{f^{''}(a)}{2!} (x-a)^2 + ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
+$f(x) =  f(a) + f^{\prime}(a)(x-a)+ \frac{f^{\prime\prime}(a)}{2!} (x-a)^2 + ...+ \frac{f^{n}(a)}{n!} (x-a)^n + ... $,
 
 Applying second order approximation to our function,
 
