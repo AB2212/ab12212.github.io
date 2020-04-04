@@ -148,4 +148,5 @@ References:
 
 [https://mlcourse.ai/articles/topic10-boosting/](https://mlcourse.ai/articles/topic10-boosting/) 
 
-[XGBoost Paper](https://arxiv.org/pdf/1603.02754.pdf)
+[XGBoost Paper](https://arxiv.org/pdf/1603.02754.pdf)Images in this post are snipped from this paper
+
