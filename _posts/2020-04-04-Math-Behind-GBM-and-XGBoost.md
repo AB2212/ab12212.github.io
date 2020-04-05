@@ -43,10 +43,10 @@ We can solve these above equations to find $\hat{f}$ in an iterative manner as s
 	i. Calculate pseudo-residuals $r\_t$,
 	 $r\_{it} = -\left[\frac{\partial L(y\_i, f(x\_i))}{\partial f(x\_i)}\right]\_{f(x)=\hat{f}(x)}, \quad{for }\ i=1,\ldots,n$
 	
-	ii. Add a new function $g\_t(x)$ as regression on pseudo-residuals $\\{ (x\_i, r\_{it})\\}\_{i=1, \ldots,n}$
+	ii. Add a new function $g\_t(x)$ (it can be any model, but here we are using decision trees) as regression on pseudo-residuals $\\{ (x\_i, r\_{it})\\}\_{i=1, \ldots,n}$
 
 	iii. Find optimal coefficient $\large \rho\_t$ at $g\_t(x)$ regarding initial loss function
-	$\rho\_t = \underset{\rho}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \hat{f}(x\_i) + \rho \cdot g(x\_i, \theta))$
+	$\rho\_t = \underset{\rho}{\arg\min}\sum\_{i = 1}^{n} L(y\_i, \hat{f}(x\_i) + \rho \cdot g\_t(x\_i, \theta))$
 	
 	iv. Update current approximation $\hat{f}(x)$ where $\hat{f\_t}(x) = \rho\_t \cdot g\_t(x)$
 
