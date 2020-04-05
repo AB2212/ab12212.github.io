@@ -1,6 +1,6 @@
 Many of you ML enthusiasts out there might have used boosting algorithms to get the best predictions (most of the time) on your data. In this blog post, I want to demystify how these algorithms work and how are they different from others. But why would anyone want to do the tough job of looking under the hood to understand the inner working? This post is for all the curious minds out there who want to learn and innovate new techniques to tackle unprecedented problems. Let’s get started!
 
-Table of Content
+**Table of Content**
 1. TOC
 {:toc}
 
@@ -62,7 +62,7 @@ XGBoost is a scalable machine learning system for tree boosting. The system is a
 
     1. Scalable end-to-end tree boosting
     2. Weighted quantile sketch to propose efficient candidate split points
-    3. Sparsity-aware algorithm that handles sparse data including missing values as well
+    3. Sparsity-aware algorithm that handles sparse data including missing values
     4. Effective cache-aware block structures for out of the core computing
     
     
