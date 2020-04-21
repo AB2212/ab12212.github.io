@@ -42,4 +42,4 @@ kramdown:
   hard_wrap: false
   syntax_highlighter: rouge
 
-
+theme: jekyll-theme-minimal
